@@ -1,0 +1,81 @@
+\documentclass[final]{beamer}
+\usepackage[size=custom,width=6.49,height=10.83,scale=0.4,debug]{beamerposter}
+\mode<presentation>{\usetheme{seriinfodisplay}}
+\setbeamersize{text margin left = .5cm, text margin right = 0.5cm}
+\usepackage{xunicode}
+\usepackage{ucs}
+\usepackage{fontspec}
+\usepackage{xltxtra}
+\usepackage{fontawesome}
+\usepackage[german]{babel}
+\usepackage[weather,clock]{ifsym}
+\usepackage[german,calc]{datetime2}
+\input{calendarweek}  % https://ctan.org/pkg/calendarweek?lang=de
+\setsansfont[Ligatures={Common}]{IBM Plex Sans Medium}  %% (ref:latex_template_font)
+\begin{document}
+\DTMsavenow{now}
+
+\begin{frame}{}
+  %% Date
+  \begin{block}{}
+    \begin{columns}[T,onlytextwidth]
+      \begin{column}{.3\textwidth}
+        {\VERYHuge \DTMordinal{\the\day} }
+        \vfill
+      \end{column}
+      \begin{column}{.6\textwidth}
+        \DTMweekdayname{\DTMfetchdow{now}}\\
+        \DTMmonthname{\DTMfetchmonth{now}}\\
+        W\calendarweek{\day}{\month}{\year}
+
+      \end{column}
+    \end{columns}
+  \end{block}
+
+  %% Current Weather
+  \begin{block}{}
+    \begin{columns}[c,onlytextwidth]
+      \begin{column}{.3\textwidth}
+        {\VeryHuge \jvar{ weather_icons[weather['status']] }}
+        \vfill
+      \end{column}
+      \begin{column}{.7\textwidth}
+        \large
+        \begin{tabular}{c l}
+          \Thermo{4} & \normalsize \jvar{ weather['temp']|int }°C \\
+          \faSunO &\normalsize\jvar{ weather['sunrise'].strftime('%H:%M') }
+                    -  \jvar{ weather['sunset'].strftime('%H:%M') }
+        \end{tabular}
+      \end{column}
+    \end{columns}
+  \end{block}
+
+  %% 4x Forecast
+  \begin{block}{}
+    \begin{tabular}{c c c c}
+      \code{ for fc in weather['forecast'] }
+      \Huge \jvar{weather_icons[fc['status']]} \jvar{ '&' if not loop.last }
+      \code{ endfor } \\
+
+      \code{ for fc in weather['forecast'] }
+      \small \jvar{fc['temp']|int}°C \jvar{ '&' if not loop.last }
+      \code{ endfor } \\
+
+      \code{ for fc in weather['forecast'] }
+      \small \jvar{ fc['ts'].strftime('%H:%M') } \jvar{ '&' if not loop.last }
+      \code{ endfor }
+    \end{tabular}
+  \end{block}
+
+  %% Calendar Events
+  \begin{block}{}
+    \begin{tabular}{l p{4cm}}
+      \code{ for event in events }
+      \jvar{ event.ts or '\\faCalendarO' } & \small \jvar{ event.title|truncate(23, False, '…', 0) } \\
+      \code{ endfor }
+    \end{tabular}
+  \end{block}
+  \vfill
+
+\end{frame}
+\end{document}
