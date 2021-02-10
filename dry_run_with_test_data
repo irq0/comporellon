@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+set -x
+set -o pipefail
+
+SCRIPTPATH="$(readlink -f "$(dirname "$BASH_SOURCE")")"
+source "${SCRIPTPATH}/run"
+
+"${SCRIPTPATH}/generate_test_data.py" | render_data_to_latex > "display.tex"
+render_latex_to_png

@@ -1,0 +1,65 @@
+#!/bin/bash
+
+set -e
+set -x
+set -o pipefail
+
+TEMPLATE="template.tex.jinja2"
+
+SCRIPTPATH="$(readlink -f "$(dirname "$BASH_SOURCE")")"
+TMP_DIR="$(mktemp -d)"
+
+cleanup () {
+    rm -rf "$TMP_DIR"
+}
+
+trap cleanup EXIT
+
+gather () {
+    cat "${SCRIPTPATH}/weather_icons.edn"
+    "${SCRIPTPATH}/gather_weather.py"
+    "${SCRIPTPATH}/gather_caldav.py"
+    "${SCRIPTPATH}/gather_webcal.py"
+}
+
+render_data_to_latex () {
+    "${SCRIPTPATH}/templater.py" "${TEMPLATE}"
+}
+
+render_latex_to_png () {
+    xelatex "display.tex"
+    pdftocairo -png -mono -singlefile -antialias none "display.pdf" display
+    convert -rotate 180 display.png "display.png"
+}
+
+display () {
+    # https://github.com/waveshare/e-Paper
+    # python "$HOME/RaspberryPi/python3/display.py" "display.png"
+    xdg-open "display.png"
+}
+
+run () {
+    if [[ -f "${SCRIPTPATH}/venv/bin/activate" ]]; then
+	source "${SCRIPTPATH}/venv/bin/activate"
+    fi
+
+    if [[ -f "${SCRIPTPATH}/environment" ]]; then
+	set +x
+	set -o allexport
+	source "${SCRIPTPATH}/environment"
+	set +o allexport
+	set -x
+    fi
+
+    cd "$TMP_DIR"
+    ln -s "${SCRIPTPATH}/beamerthemeseriinfodisplay.sty" .
+    ln -s "${SCRIPTPATH}/calendarweek.tex" .
+
+    gather | render_data_to_latex > "display.tex"
+    render_latex_to_png
+    display
+}
+
+if [[ "${BASH_SOURCE[0]}" = "${0}" ]]; then
+   run
+fi
