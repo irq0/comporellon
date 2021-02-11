@@ -1,8 +1,7 @@
 #+title: Comporellon - ePaper Calendar & Weather Display
 #+author: Marcel Lauhoff
 * Setup & Run
-
-Install system [[*Dependencies][Dependencies]], then run the following:
+Install system dependencies (see below), then run the following:
 
 #+begin_src bash
 # git clone $repo_url comporellon
@@ -30,7 +29,7 @@ Example cronjob:
 * Configuration
 See [[./environment.example]] and the beginning of the gather_* scripts.
 
-* Dependencies
+* System Dependencies
 #+CAPTION: Debian Packages
 #+begin_src bash
 apt install \
