@@ -2,7 +2,7 @@
 #+author: Marcel Lauhoff
 * Setup & Run
 
-Install system [[dependencies]], then run the following:
+Install system [[*Dependencies][Dependencies]], then run the following:
 
 #+begin_src bash
 # git clone $repo_url comporellon
