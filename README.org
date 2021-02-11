@@ -1,0 +1,64 @@
+#+title: Comporellon - ePaper Calendar & Weather Display
+#+author: Marcel Lauhoff
+* Setup & Run
+
+Install system [[dependencies]], then run the following:
+
+#+begin_src bash
+# git clone $repo_url comporellon
+cd comporellon
+
+# install python requirements
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# copy and populate environment file
+cp environment.example environment
+editor environment
+
+./run
+#+end_src
+
+Example cronjob:
+
+#+begin_example
+# chronic is part of moreutils, only prints stdout/stderr if return code != 0
+*/30 * *   *   *  chronic /home/pi/comporellon/run
+#+end_example
+
+* Configuration
+See [[./environment.example]] and the beginning of the gather_* scripts.
+
+* Dependencies
+#+CAPTION: Debian Packages
+#+begin_src bash
+apt install \
+   poppler-utils \
+   imagemagick \
+   python3 \
+   latexmk \
+   texlive texlive-latex-recommended \
+   texlive-fonts-recommended \
+   texlive-fonts-extra \
+   texlive-xetex \
+   moretuils
+#+end_src
+
+Refreshing the display with the manufacturers tools https://github.com/waveshare/e-Paper.
+
+#+CAPTION: Python Dependencies requirements.txt
+#+begin_src bash :tangle ./epaper-calendar/requirements.txt
+pytz
+vobject
+jinja2
+pyowm
+caldav
+#+end_src
+
+* Development
+Use =dry_run_with_test_data= to generate from mock data in the working
+directory. There will be a display.png, and display.pdf as output.
+
+* Documentation
+https://irq0.org//hacks/epaper-calendar.html

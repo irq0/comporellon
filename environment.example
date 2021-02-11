@@ -1,6 +1,12 @@
+# Get a key for the OpenWeather API from https://openweathermap.org/appid
 OWM_API_KEY=
+# e.g. "Berlin,DE"
 OWM_LOCATION=
+# Caldav Server URL e.g. https://nextcloud.example.com/remote.php/dav/principals/users/example-user/
 CALDAV_URL=
 CALDAV_USER=
 CALDAV_PASSWORD=
+# Caldav calendar names
 CALDAV_CALENDARS=
+# http/https URLs pointing to iCal calendar files
+WEBCAL_URLS=
