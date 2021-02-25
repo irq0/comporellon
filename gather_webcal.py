@@ -3,15 +3,12 @@
 import logging
 import os
 
-import pytz
 import requests
 import vobject
 
 import calendar_tools
 import serialize
 
-ICAL_FALLBACK_TZ = pytz.timezone("UTC")
-TZ = os.getenv("TZ") or ICAL_FALLBACK_TZ
 LOG = logging.getLogger(__name__)
 # ';'-separated list of URLS pointing to iCal resources
 WEBCAL_URLS = os.getenv("WEBCAL_URLS")

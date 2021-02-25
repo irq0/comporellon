@@ -8,10 +8,15 @@ from datetime import time
 
 import pytz
 
-
-ICAL_FALLBACK_TZ = pytz.timezone("UTC")
-TZ = os.getenv("TZ") or ICAL_FALLBACK_TZ
+FALLBACK_TZ = pytz.timezone("UTC")
 LOG = logging.getLogger(__name__)
+
+
+def get_local_timezone():
+    env = os.getenv("TZ")
+    if env:
+        return pytz.timezone(env)
+    return FALLBACK_TZ
 
 
 def event_is_allday(event):
@@ -19,15 +24,16 @@ def event_is_allday(event):
 
 
 def format_event(event):
+    tz = get_local_timezone()
     if event_is_allday(event):
         return {"ts": None, "title": event.summary.value}
     else:
         try:
-            start = event.dtstart.value.astimezone(TZ).time().strftime("%H:%M")
+            start = event.dtstart.value.astimezone(tz).time().strftime("%H:%M")
         except Exception:
             start = "?"
         try:
-            end = event.dtend.value.astimezone(TZ).time().strftime("%H:%M")
+            end = event.dtend.value.astimezone(tz).time().strftime("%H:%M")
         except Exception:
             end = "?"
 
@@ -38,16 +44,17 @@ def format_event(event):
 
 
 def date_to_datetime_floor(dt):
-    return datetime.combine(dt, time(0, 0, 0, 0, tzinfo=TZ))
+    return datetime.combine(dt, time(0, 0, 0, 0, tzinfo=get_local_timezone()))
 
 
 def date_to_datetime_ceil(dt):
-    return datetime.combine(dt, time(23, 59, 59, 999999, tzinfo=TZ))
+    return datetime.combine(dt, time(23, 59, 59, 999999, tzinfo=get_local_timezone()))
 
 
 def event_is_today(event):
-    day_start = datetime.now(TZ).replace(hour=0, minute=0, second=0, microsecond=0)
-    day_end = datetime.now(TZ).replace(
+    tz = get_local_timezone()
+    day_start = datetime.now(tz).replace(hour=0, minute=0, second=0, microsecond=0)
+    day_end = datetime.now(tz).replace(
         hour=23, minute=59, second=59, microsecond=999999
     )
 
@@ -65,7 +72,7 @@ def event_is_today(event):
     try:
         fallback_tz = event.dtstamp.value.tzinfo
     except Exception:
-        fallback_tz = ICAL_FALLBACK_TZ
+        fallback_tz = FALLBACK_TZ
 
     if start.tzinfo is None:
         start = start.replace(tzinfo=fallback_tz)

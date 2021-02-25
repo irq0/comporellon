@@ -3,11 +3,11 @@
 import os
 
 import pyowm
-import pytz
 
+import calendar_tools
 import serialize
 
-TZ = os.getenv("TZ") or pytz.timezone("Europe/Berlin")
+TZ = calendar_tools.get_local_timezone()
 OWM_API_KEY = os.getenv("OWM_API_KEY")
 OWM_LOCATION = os.getenv("OWM_LOCATION")  # ex: "Berlin,DE"
 

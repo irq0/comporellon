@@ -6,14 +6,12 @@ import os
 from datetime import datetime
 
 import caldav
-import pytz
 import vobject
 
 import calendar_tools
 import serialize
 
-ICAL_FALLBACK_TZ = pytz.timezone("UTC")
-TZ = os.getenv("TZ") or ICAL_FALLBACK_TZ
+TZ = calendar_tools.get_local_timezone()
 LOG = logging.getLogger(__name__)
 CALDAV_URL = os.getenv("CALDAV_URL")
 CALDAV_USER = os.getenv("CALDAV_USER")

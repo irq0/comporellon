@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 # ✓
-import os
 from datetime import datetime
 
-import pytz
-
+import calendar_tools
 import serialize
 
-ICAL_FALLBACK_TZ = pytz.timezone("UTC")
-TZ = os.getenv("TZ") or ICAL_FALLBACK_TZ
+TZ = calendar_tools.get_local_timezone()
 
 
 def generate_test_data():
