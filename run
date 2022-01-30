@@ -33,9 +33,7 @@ render_latex_to_png () {
 }
 
 display () {
-    # https://github.com/waveshare/e-Paper
-    # python "$HOME/RaspberryPi/python3/display.py" "display.png"
-    xdg-open "display.png"
+    $DISPLAY_TOOL "display.png"
 }
 
 run () {

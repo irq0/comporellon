@@ -10,3 +10,5 @@ CALDAV_PASSWORD=
 CALDAV_CALENDARS=
 # http/https URLs pointing to iCal calendar files
 WEBCAL_URLS=
+# See https://github.com/waveshare/e-Paper
+DISPLAY_TOOL="xdg-open"
