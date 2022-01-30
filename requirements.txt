@@ -1,6 +1,6 @@
 caldav
 edn-format
 jinja2
-pyowm
+pyowm>=3
 pytz
 vobject
