@@ -5,6 +5,7 @@ import os
 from datetime import date
 from datetime import datetime
 from datetime import time
+from datetime import timedelta
 
 import pytz
 
@@ -53,10 +54,12 @@ def date_to_datetime_ceil(dt):
 
 def event_is_today(event):
     tz = get_local_timezone()
-    day_start = datetime.now(tz).replace(hour=0, minute=0, second=0, microsecond=0)
-    day_end = datetime.now(tz).replace(
-        hour=23, minute=59, second=59, microsecond=999999
-    )
+    return event_is_on(event, datetime.now(tz))
+
+
+def event_is_on(event, on_date):
+    day_start = on_date.replace(hour=0, minute=0, second=0, microsecond=0)
+    day_end = on_date.replace(hour=23, minute=59, second=59, microsecond=999999)
 
     start = event.dtstart.value
     try:
@@ -64,11 +67,19 @@ def event_is_today(event):
     except AttributeError:
         end = start
 
-    if isinstance(start, date):
-        start = date_to_datetime_floor(start)
-    if isinstance(end, date):
-        end = date_to_datetime_ceil(end)
+    orig_start, orig_end = start, end
 
+    LOG.info("%r, %r, %r", start, end, type(end))
+
+    if type(start) == date:
+        start = date_to_datetime_floor(start)
+    if type(end) == date:
+        if orig_start == orig_end:
+            end = date_to_datetime_ceil(orig_start)
+        else:
+            end = date_to_datetime_floor(end) - timedelta(seconds=1)
+
+    LOG.info("%r, %r", start, end)
     try:
         fallback_tz = event.dtstamp.value.tzinfo
     except Exception:
@@ -80,11 +91,11 @@ def event_is_today(event):
         end = end.replace(tzinfo=fallback_tz)
 
     try:
-        if event.getrruleset() is not None:
-            events = event.getrruleset().between(
-                day_start.replace(tzinfo=None), day_end.replace(tzinfo=None), inc=True
-            )
-            return len(events) > 0
+        if "rrule" in event.contents:
+            rruleset = event.transformToNative().getrruleset()
+            if rruleset:
+                events = rruleset.between(day_start, day_end, inc=True)
+                return len(events) > 0
     except Exception:
         LOG.error("rrule failed:", exc_info=True)
         LOG.debug(
@@ -94,7 +105,6 @@ def event_is_today(event):
             }
         )
         LOG.debug(event.contents)
-        return False
 
     try:
         return (
