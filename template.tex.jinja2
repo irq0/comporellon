@@ -71,7 +71,10 @@
   %% Calendar Events
   \begin{block}{}
     \begin{tabular}{l p{4cm}}
-      \code{ for event in events }
+      \code{ for event in events | selectattr("ts", "none") | sort(attribute="title") }
+      \jvar{ event.ts or '\\faCalendarO' } & \small \jvar{ event.title|truncate(23, False, '…', 0) } \\
+      \code{ endfor }
+      \code{ for event in events | selectattr("ts") | sort(attribute="ts") }
       \jvar{ event.ts or '\\faCalendarO' } & \small \jvar{ event.title|truncate(23, False, '…', 0) } \\
       \code{ endfor }
     \end{tabular}

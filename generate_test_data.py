@@ -55,7 +55,9 @@ def generate_test_data():
                 ),
             },
             {"ts": None, "title": "Document E-Paper Calendar"},
-            {"ts": "13:37-23:42", "title": "FooBar!"},
+            {"ts": "18:00-19:00", "title": "Third"},
+            {"ts": "13:37-23:42", "title": "Second"},
+            {"ts": " 9:30-10:30", "title": "First"},
         ],
         "weather_icons": {
             "clear sky": r"\Sun",
