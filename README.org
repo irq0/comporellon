@@ -60,4 +60,4 @@ Use =dry_run_with_test_data= to generate from mock data in the working
 directory. There will be a display.png, and display.pdf as output.
 
 * Documentation
-https://irq0.org//hacks/epaper-calendar.html
+https://irq0.org/hacks/epaper-calendar
