@@ -7,8 +7,7 @@
 \usepackage{ucs}
 \usepackage{fontspec}
 \usepackage{xltxtra}
-\usepackage{fontawesome}
-\newfontfamily{\FA}{[FontAwesome.otf]}
+\usepackage{fontawesome5}
 \usepackage[german]{babel}
 \usepackage[weather,clock]{ifsym}
 \usepackage[german,calc]{datetime2}
@@ -45,7 +44,7 @@
         \large
         \begin{tabular}{c l}
           \Thermo{4} & \normalsize \jvar{ weather['temp']|int }°C \\
-          \faSunO &\normalsize\jvar{ weather['sunrise'].strftime('%H:%M') }
+          \faSun &\normalsize\jvar{ weather['sunrise'].strftime('%H:%M') }
                     -  \jvar{ weather['sunset'].strftime('%H:%M') }
         \end{tabular}
       \end{column}
@@ -73,10 +72,10 @@
   \begin{block}{}
     \begin{tabular}{l p{4cm}}
       \code{ for event in events | selectattr("ts", "none") | sort(attribute="title") }
-      \jvar{ event.ts or '\\faCalendarO' } & \small \jvar{ event.title|truncate(23, False, '…', 0) } \\
+      \jvar{ event.ts or '\\faCalendar' } & \small \jvar{ event.title|truncate(23, False, '…', 0) } \\
       \code{ endfor }
       \code{ for event in events | selectattr("ts") | sort(attribute="ts") }
-      \jvar{ event.ts or '\\faCalendarO' } & \small \jvar{ event.title|truncate(23, False, '…', 0) } \\
+      \jvar{ event.ts or '\\faCalendar' } & \small \jvar{ event.title|truncate(23, False, '…', 0) } \\
       \code{ endfor }
     \end{tabular}
   \end{block}
