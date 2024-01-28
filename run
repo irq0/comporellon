@@ -53,7 +53,7 @@ run () {
     ln -s "${SCRIPTPATH}/beamerthemeseriinfodisplay.sty" .
     ln -s "${SCRIPTPATH}/calendarweek.tex" .
 
-    gather | render_data_to_latex > "display.tex"
+    gather | tee "/tmp/last_comporellon_gather" | render_data_to_latex > "display.tex"
     render_latex_to_png
     display
 }
