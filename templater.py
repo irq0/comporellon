@@ -3,7 +3,6 @@ import logging
 import os.path
 import sys
 
-import edn_format
 import jinja2
 
 import serialize
@@ -33,22 +32,8 @@ def render_template(template_filename, data):
 
 def ingest_data(fo):
     data = {}
-    for obj in serialize.deserialize(fo.read()):
-        for k, v in obj.items():
-            if k not in data.keys():
-                if isinstance(v, edn_format.ImmutableList):
-                    data[k] = list(v)
-                elif isinstance(v, edn_format.ImmutableDict):
-                    data[k] = dict(v)
-                else:
-                    data[k] = v
-            else:
-                if isinstance(v, edn_format.ImmutableList):
-                    data[k].extend(v)
-                elif isinstance(v, edn_format.ImmutableDict):
-                    data[k].update(v)
-                else:
-                    raise TypeError(f"Key {k} has an unsupported value type {type(v)}")
+    for line in fo.readlines():
+        data.update(serialize.deserialize(line))
     return data
 
 

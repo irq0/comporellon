@@ -22,14 +22,14 @@ def get_weather():
 
     return {
         "temp": cw.temperature("celsius")["temp"],
-        "sunrise": cw.sunrise_time(timeformat="date").astimezone(TZ),
-        "sunset": cw.sunset_time(timeformat="date").astimezone(TZ),
+        "sunrise_ts": cw.sunrise_time(timeformat="date").astimezone(TZ),
+        "sunset_ts": cw.sunset_time(timeformat="date").astimezone(TZ),
         "status": cw.detailed_status.lower(),
         "forecast": [
             {
                 "temp": nw.temperature("celsius")["temp"],
                 "status": nw.detailed_status.lower(),
-                "ts": nw.reference_time(timeformat="date").astimezone(TZ),
+                "start_ts": nw.reference_time(timeformat="date").astimezone(TZ),
             }
             for nw in forecast.weathers[:4]
         ],

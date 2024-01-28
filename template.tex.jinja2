@@ -47,8 +47,8 @@
         \large
         \begin{tabular}{c l}
           \Thermo{4} & \normalsize \jvar{ weather['temp']|int }°C \\
-          \faSun &\normalsize\jvar{ weather['sunrise'].strftime('%H:%M') }
-                    -  \jvar{ weather['sunset'].strftime('%H:%M') }
+          \faSun &\normalsize\jvar{ weather['sunrise_ts'].strftime('%H:%M') }
+                    -  \jvar{ weather['sunset_ts'].strftime('%H:%M') }
         \end{tabular}
       \end{column}
     \end{columns}
@@ -66,7 +66,7 @@
       \code{ endfor } \\
 
       \code{ for fc in weather['forecast'] }
-      \small \jvar{ fc['ts'].strftime('%H:%M') } \jvar{ '&' if not loop.last }
+      \small \jvar{ fc['start_ts'].strftime('%H:%M') } \jvar{ '&' if not loop.last }
       \code{ endfor }
     \end{tabular}
   \end{block}

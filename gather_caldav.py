@@ -50,8 +50,15 @@ def caldav_today():
 
 
 if __name__ == "__main__":
-    calendar = caldav_today()
-    formatted_events = [
-        calendar_tools.format_event(event) for event in calendar.components()
-    ]
-    print(serialize.serialize({"events": formatted_events}))
+    try:
+        calendar = caldav_today()
+        formatted_events = [
+            calendar_tools.format_event(event) for event in calendar.components()
+        ]
+        print(serialize.serialize({"events": formatted_events}))
+    except Exception as e:
+        print(
+            serialize.serialize(
+                {"events": [{"ts": None, "title": "CalDAV error: " + str(e)}]}
+            )
+        )
