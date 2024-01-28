@@ -29,7 +29,7 @@ render_data_to_latex () {
 render_latex_to_png () {
     xelatex "display.tex"
     pdftocairo -png -mono -singlefile -antialias none "display.pdf" display
-    convert -rotate 180 display.png "display.png"
+    convert -rotate 90 display.png "display.png"
 }
 
 display () {
