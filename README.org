@@ -44,8 +44,6 @@ apt install \
    moretuils
 #+end_src
 
-Refreshing the display with the manufacturers tools https://github.com/waveshare/e-Paper.
-
 #+CAPTION: Python Dependencies requirements.txt
 #+begin_src bash :tangle ./epaper-calendar/requirements.txt
 pytz
@@ -54,6 +52,9 @@ jinja2
 pyowm
 caldav
 #+end_src
+
+* Display Refresh Tool
+Now includes the tool [[waveshare-epaper/display.cc]] to refresh 7.5" Waveshare displays
 
 * Development
 Use =dry_run_with_test_data= to generate from mock data in the working
