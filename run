@@ -16,7 +16,7 @@ cleanup () {
 trap cleanup EXIT
 
 gather () {
-    cat "${SCRIPTPATH}/weather_icons.edn"
+    "${SCRIPTPATH}/gather_weather_icons.py"
     "${SCRIPTPATH}/gather_weather.py"
     "${SCRIPTPATH}/gather_caldav.py"
     "${SCRIPTPATH}/gather_webcal.py"

@@ -46,7 +46,7 @@
       \begin{column}{.7\textwidth}
         \large
         \begin{tabular}{c l}
-          \Thermo{4} & \normalsize \jvar{ weather['temp']|int }°C \\
+          \jvar{ thermometer_icons[weather['thermometer']] } & \normalsize \jvar{ weather['temp']|int }°C \\
           \faSun &\normalsize\jvar{ weather['sunrise_ts'].strftime('%H:%M') }
                     -  \jvar{ weather['sunset_ts'].strftime('%H:%M') }
         \end{tabular}
